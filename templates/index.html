@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVD Image Compressor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #0099ff;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="file"], input[type="number"], button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: #0099ff;
+            color: white;
+            cursor: pointer;
+            transition: .3s all ease-in;
+        }
+
+        button:hover {
+            background-color: #0099ff;
+            box-shadow: 4px 4px 4px #83cdff;
+        }
+
+        .image-preview {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .result-section {
+            margin-top: 40px;
+        }
+
+        .result-section h3 {
+            font-size: 22px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    SVD Image Compression
+</header>
+
+<div class="container">
+    <form action="/" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="file">Choose an Image:</label>
+            <input type="file" name="file" accept="image/*"><br><br>
+        </div>
+
+        <div class="form-group">
+            <label for="k">Enter k (number of components):</label>
+            <input type="number" name="k" min="1" required value="{{ k if k else 50 }}"><br><br>
+        </div>
+
+        <button type="submit">Compress</button>
+    </form>
+
+    <div class="result-section">
+        {% if original_image %}
+            <div class="image-preview">
+                <h3>Original Image:</h3>
+                <img src="{{ original_image }}" alt="Original Image">
+            </div>
+        {% endif %}
+
+        {% if compressed_image %}
+            <div class="image-preview">
+                <h3>Compressed Image (k = {{ k }}):</h3>
+                <img src="{{ compressed_image }}" alt="Compressed Image">
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
