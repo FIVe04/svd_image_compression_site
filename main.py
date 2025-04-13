@@ -2,11 +2,13 @@ from fastapi import FastAPI, File, UploadFile, Form, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import FileResponse
 import mimetypes
 from PIL import Image
 import numpy as np
 from numpy.linalg import svd
 import os
+
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -38,6 +40,18 @@ def compress_image(k: int) -> bool:
     compressed_img.save(compressed_path)
     return True
 
+@app.get("/preview/original")
+def get_original():
+    if os.path.exists(original_path):
+        return FileResponse(original_path, media_type="image/png")
+    raise HTTPException(status_code=404, detail="Original image not found")
+
+
+@app.get("/preview/compressed")
+def get_compressed():
+    if os.path.exists(compressed_path):
+        return FileResponse(compressed_path, media_type="image/png")
+    raise HTTPException(status_code=404, detail="Compressed image not found")
 
 @app.get("/", response_class=HTMLResponse)
 async def show_form(request: Request):
@@ -77,7 +91,5 @@ async def handle_form(
 
     return templates.TemplateResponse("index.html", {
         "request": request,
-        "original_image": original_path if os.path.exists(original_path) else None,
-        "compressed_image": compressed_path if success else None,
         "k": k
     })

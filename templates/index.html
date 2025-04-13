@@ -105,19 +105,15 @@
     </form>
 
     <div class="result-section">
-        {% if original_image %}
-            <div class="image-preview">
-                <h3>Original Image:</h3>
-                <img src="{{ original_image }}" alt="Original Image">
-            </div>
-        {% endif %}
+        <div class="image-preview">
+            <h3>Original Image:</h3>
+            <img src="/preview/original" alt="Original Image">
+        </div>
 
-        {% if compressed_image %}
-            <div class="image-preview">
-                <h3>Compressed Image (k = {{ k }}):</h3>
-                <img src="{{ compressed_image }}" alt="Compressed Image">
-            </div>
-        {% endif %}
+        <div class="image-preview">
+            <h3>Compressed Image (k = {{ k }}):</h3>
+            <img src="/preview/compressed" alt="Compressed Image">
+        </div>
     </div>
 </div>
 
