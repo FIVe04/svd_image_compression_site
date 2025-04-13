@@ -9,11 +9,11 @@ from numpy.linalg import svd
 import os
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/tmp", StaticFiles(directory="tmp"), name="tmp")
 templates = Jinja2Templates(directory="templates")
 
-original_path = "static/original.png"
-compressed_path = "static/compressed.png"
+original_path = "./tmp/original.png"
+compressed_path = "./tmp/compressed.png"
 
 
 def compress_image(k: int) -> bool:
