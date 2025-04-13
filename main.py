@@ -9,11 +9,18 @@ from numpy.linalg import svd
 import os
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
 
-original_path = "static/original.png"
-compressed_path = "static/compressed.png"
+# Get the absolute path to the static and templates directories
+current_dir = os.path.dirname(os.path.abspath(__file__))
+static_dir = os.path.join(current_dir, "static")
+templates_dir = os.path.join(current_dir, "templates")
+
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+templates = Jinja2Templates(directory=templates_dir)
+
+# Use absolute paths for image files
+original_path = os.path.join(static_dir, "original.png")
+compressed_path = os.path.join(static_dir, "compressed.png")
 
 
 def compress_image(k: int) -> bool:
